@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d27a0ac3-c746-4c89-8210-e6e35a14417d" name="Changes" comment="commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MLProject/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/MLProject/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sub_Sandwiches_OSAT.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/model2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tic-tac-toe.data" beforeDir="false" />
-    </list>
+    <list default="true" id="d27a0ac3-c746-4c89-8210-e6e35a14417d" name="Changes" comment="commit" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -28,7 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/MLProject" value="step/baseline" />
+        <entry key="$PROJECT_DIR$/MLProject" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/MLProject" />
@@ -49,7 +41,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Python.main (1).executor": "Run",
-    "git-widget-placeholder": "main"
+    "git-widget-placeholder": "step/baseline"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -57,7 +49,7 @@
       <recent name="C:\Users\ThinkPad E15\PycharmProjects\MLProject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main (1)">
+  <component name="RunManager">
     <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="machineProject" />
       <option name="ENV_FILES" value="" />
@@ -133,8 +125,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.model2.py" />
         <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.model2.py" />
+        <item itemvalue="Python.main (1)" />
+        <item itemvalue="Python.main (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -157,6 +152,23 @@
       <workItem from="1705959924846" duration="3803000" />
       <workItem from="1705966641470" duration="42000" />
     </task>
+    <task id="LOCAL-00001" summary="commit">
+      <option name="closed" value="true" />
+      <created>1706025993508</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1706025993508</updated>
+    </task>
+    <task id="LOCAL-00002" summary="commit">
+      <option name="closed" value="true" />
+      <created>1706026052878</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1706026052878</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
