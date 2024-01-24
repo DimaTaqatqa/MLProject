@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d27a0ac3-c746-4c89-8210-e6e35a14417d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/model3.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/machineProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/machineProject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/model2.py" beforeDir="false" afterPath="$PROJECT_DIR$/model2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +45,7 @@
       <recent name="C:\Users\ThinkPad E15\PycharmProjects\MLProject" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.model2.py">
+  <component name="RunManager" selected="Python.main">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -107,7 +111,8 @@
       <workItem from="1705957464485" duration="2130000" />
       <workItem from="1705959924846" duration="3803000" />
       <workItem from="1705966641470" duration="499000" />
-      <workItem from="1706021182576" duration="14637000" />
+      <workItem from="1706021182576" duration="15546000" />
+      <workItem from="1706124709476" duration="11269000" />
     </task>
     <servers />
   </component>
@@ -126,7 +131,7 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MLProject$model2_py.coverage" NAME="model2.py Coverage Results" MODIFIED="1706054263739" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MLProject$model2_py.coverage" NAME="model2.py Coverage Results" MODIFIED="1706126038069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/MLProject$main.coverage" NAME="main Coverage Results" MODIFIED="1706039556893" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

@@ -3,13 +3,20 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import GridSearchCV
 from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, roc_curve, auc, \
-    precision_recall_curve
+from sklearn.metrics import (
+    accuracy_score, confusion_matrix, classification_report,
+    precision_recall_curve, auc, roc_curve, f1_score,
+    precision_score, recall_score
+)
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.decomposition import PCA
 
 # Load your dataset (replace 'your_dataset.csv' with the actual file path and column names)
 df = pd.read_csv('tic-tac-toe.data', header=None)
+
+# x -> 2 , o -> 1, b -> 0, for classes - > negative -> 0 and positive -> 1
 
 # Label encode categorical values
 label_encoder = LabelEncoder()
@@ -20,7 +27,10 @@ for col in range(9):
 df[9] = label_encoder.fit_transform(df[9])
 
 # Split the data into features (X) and target variable (y)
+# 10 columns
+# first 9 columns for features
 X = df.iloc[:, :9]
+# last column for target
 y = df[9]
 
 # Split the data into training and testing sets
@@ -42,6 +52,9 @@ print("Best Hyperparameters:", grid_search.best_params_)
 # Get the best model
 best_svm_model = grid_search.best_estimator_
 
+# Get the decision function values
+dec_function_values = best_svm_model.decision_function(X_test)
+
 # Get the probability scores
 y_scores = best_svm_model.predict_proba(X_test)
 
@@ -52,13 +65,25 @@ y_pred = best_svm_model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 conf_matrix = confusion_matrix(y_test, y_pred)
 classification_report_str = classification_report(y_test, y_pred, zero_division=1)
+f1 = f1_score(y_test, y_pred)
 
 # Print results
 print(f"Accuracy: {accuracy}")
-print("\nConfusion Matrix:")
-print(conf_matrix)
+print(f'Precision: {precision_score(y_test, y_pred):.4f}')
+print(f'Recall: {recall_score(y_test, y_pred):.4f}')
+# Print the classification report
 print("\nClassification Report:")
 print(classification_report_str)
+# Print F1 score
+print(f'F1 Score: {f1:.4f}')
+
+# Calculate TPR and FPR for ROC curve
+fpr, tpr, thresholds = roc_curve(y_test, y_scores[:, 1])
+
+# Calculate AUC for ROC curve
+roc_auc = auc(fpr, tpr)
+print(f'AUC-ROC: {roc_auc:.4f}')
+
 
 # Plot Confusion Matrix
 sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=['Negative', 'Positive'],
@@ -68,39 +93,23 @@ plt.ylabel('Actual')
 plt.title('Confusion Matrix')
 plt.show()
 
-recall = dict()
-precision = dict()
-threshold = dict()
-fpr = dict()
-tpr = dict()
-roc_auc = dict()
-
-
-for i in range(len(label_encoder.classes_)):
-    precision[i], recall[i], threshold[i] = precision_recall_curve(y_test == i, y_scores[:, i])
-    plt.plot(recall[i], precision[i], lw=2, label=f'Class {label_encoder.classes_[i]}')
-
-# Plot Precision-Recall curves for each class
-plt.figure(figsize=(10, 7))
-plt.xlabel("Recall")
-plt.ylabel("Precision")
-plt.title("Precision-Recall Curves for Each Class")
-
-# Explicitly set the labels for the legend
-legend_labels = [f'Class {label_encoder.classes_[i]}' for i in range(len(label_encoder.classes_))]
-plt.legend(loc="best", title='Class', labels=legend_labels)
-
+# Plot Precision-Recall curve
+precision, recall, _ = precision_recall_curve(y_test, y_scores[:, 1])
+plt.figure(figsize=(8, 6))
+plt.plot(recall, precision, label=f'Precision-Recall Curve (AUC-PR = {auc(recall, precision):.4f})', color='b')
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.title('Precision-Recall Curve')
+plt.legend()
 plt.show()
 
-for i in range(len(label_encoder.classes_)):
-    fpr[i], tpr[i], _ = roc_curve(y_test == i, y_scores[:, i])
-    roc_auc[i] = auc(fpr[i], tpr[i])
-    plt.plot(fpr[i], tpr[i], lw=2, label=f'Class {label_encoder.classes_[i]} (AUC = {roc_auc[i]:0.2f})')
-
-plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
-plt.xlim([0.0, 1.0])
-plt.ylim([0.0, 1.0])
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
+# Plot ROC curve
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, label=f'ROC Curve (AUC = {roc_auc:.4f})', color='b')
+plt.plot([0, 1], [0, 1], linestyle='--', color='grey', label='Random')
+plt.xlabel('False Positive Rate (FPR)')
+plt.ylabel('True Positive Rate (TPR)')
 plt.title('Receiver Operating Characteristic (ROC) Curve')
+plt.legend()
 plt.show()
+
