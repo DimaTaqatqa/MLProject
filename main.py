@@ -59,18 +59,20 @@ plt.figure(figsize=(12, 6))
 # Decision boundary for k=1
 plt.subplot(1, 2, 1)
 plt.contourf(xx, yy, Z_1, alpha=0.8, cmap='viridis')
-plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y_encoded, edgecolors='k', cmap='viridis')
+scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y_encoded, edgecolors='k', cmap='viridis')
 plt.title('Decision Boundary for k=1')
 plt.xlabel('Principal Component 1')
 plt.ylabel('Principal Component 2')
+plt.legend(*scatter.legend_elements(), title="Classes")
 
 # Decision boundary for k=3
 plt.subplot(1, 2, 2)
 plt.contourf(xx, yy, Z_3, alpha=0.8, cmap='viridis')
-plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y_encoded, edgecolors='k', cmap='viridis')
+scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y_encoded, edgecolors='k', cmap='viridis')
 plt.title('Decision Boundary for k=3')
 plt.xlabel('Principal Component 1')
 plt.ylabel('Principal Component 2')
+plt.legend(*scatter.legend_elements(), title="Classes")
 
 plt.tight_layout()
 plt.show()

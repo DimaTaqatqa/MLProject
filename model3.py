@@ -35,14 +35,16 @@ X_pca = pca.fit_transform(X_encoded)
 X_train, X_test, y_train, y_test = train_test_split(X_pca, y_encoded, test_size=0.2, random_state=42)
 
 # Define and train the Decision Tree model
-dt_params = {'max_depth': [None, 5, 10, 15]}  # Example hyperparameters to tune
-dt = DecisionTreeClassifier()
-grid_search_dt = GridSearchCV(dt, dt_params, cv=3)
-grid_search_dt.fit(X_train, y_train)
-best_dt = grid_search_dt.best_estimator_
+dt_params = {'max_depth': [None, 5, 10, 15, 20]}  # Example hyperparameters to tune
+dt = DecisionTreeClassifier(max_depth=5)
+dt.fit(X_train, y_train)
+# grid_search_dt = GridSearchCV(dt, dt_params, cv=3)
+# grid_search_dt.fit(X_train, y_train)
+# best_dt = grid_search_dt.best_estimator_
+# print(grid_search_dt.best_params_)
 
 # Predict and evaluate for Decision Tree
-y_pred_dt = best_dt.predict(X_test)
+y_pred_dt = dt.predict(X_test)
 accuracy_dt = accuracy_score(y_test, y_pred_dt)
 precision_dt = precision_score(y_test, y_pred_dt, pos_label=1)
 recall_dt = recall_score(y_test, y_pred_dt, pos_label=1)
@@ -54,6 +56,7 @@ print(f'Precision: {precision_dt}')
 print(f'Recall: {recall_dt}')
 print(f'F1-Score: {f1_dt}')
 print(f'Confusion Matrix:\n{conf_matrix_dt}\n')
+
 
 # Define and train the Random Forest model
 rf_params = {'n_estimators': [50, 100, 150, 200]}  # Example hyperparameters to tune
@@ -102,9 +105,9 @@ def plot_decision_boundaries_2d_pca(X_pca, y, model, title):
     plt.title(f'{title}\nConfusion Matrix:\n{conf_matrix_rf}')
 
 # Plot decision boundaries for Decision Tree in 2D after PCA
-plot_decision_boundaries_2d_pca(X_pca, y_encoded, best_dt, "Decision Boundaries for Decision Tree after PCA")
+plot_decision_boundaries_2d_pca(X_pca, y_encoded, dt, "Decision Boundaries for Decision Tree after PCA")
 plt.show()
 
 # Plot decision boundaries for Random Forest in 2D after PCA
-plot_decision_boundaries_2d_pca(X_pca, y_encoded, best_rf, "Decision Boundaries for Random Forest after PCA")
-plt.show()
+# plot_decision_boundaries_2d_pca(X_pca, y_encoded, best_rf, "Decision Boundaries for Random Forest after PCA")
+# plt.show()

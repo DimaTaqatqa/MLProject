@@ -11,6 +11,7 @@ from sklearn.metrics import (
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
 
 # Load your dataset (replace 'your_dataset.csv' with the actual file path and column names)
@@ -52,12 +53,37 @@ print("Best Hyperparameters:", grid_search.best_params_)
 # Get the best model
 best_svm_model = grid_search.best_estimator_
 
+# best_svm_model = SVC(kernel='poly', C=10, probability=True)
+# best_svm_model.fit(X_train, y_train)
+
+# Apply PCA for dimensionality reduction
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X)
+
+# Plot the data points
+plt.figure(figsize=(10, 8))
+sns.scatterplot(x=X_pca[:, 0], y=X_pca[:, 1], hue=y, palette='viridis')
+
+# Plot the decision boundaries using contourf
+x_min, x_max = X_pca[:, 0].min() - 1, X_pca[:, 0].max() + 1
+y_min, y_max = X_pca[:, 1].min() - 1, X_pca[:, 1].max() + 1
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.1), np.arange(y_min, y_max, 0.1))
+Z = best_svm_model.predict(pca.inverse_transform(np.c_[xx.ravel(), yy.ravel()]))
+Z = Z.reshape(xx.shape)
+plt.contourf(xx, yy, Z, alpha=0.3, levels=np.arange(len(np.unique(y)) + 1) - 0.5, cmap='viridis')
+
+plt.xlabel('PCA Component 1')
+plt.ylabel('PCA Component 2')
+plt.title('SVM Decision Boundaries (PCA)')
+plt.legend()
+plt.show()
+
 # Get the decision function values
 dec_function_values = best_svm_model.decision_function(X_test)
 
 # Get the probability scores
 y_scores = best_svm_model.predict_proba(X_test)
-
+# print(y_scores)
 # Make predictions on the test set
 y_pred = best_svm_model.predict(X_test)
 
@@ -77,14 +103,6 @@ print(classification_report_str)
 # Print F1 score
 print(f'F1 Score: {f1:.4f}')
 
-# Calculate TPR and FPR for ROC curve
-fpr, tpr, thresholds = roc_curve(y_test, y_scores[:, 1])
-
-# Calculate AUC for ROC curve
-roc_auc = auc(fpr, tpr)
-print(f'AUC-ROC: {roc_auc:.4f}')
-
-
 # Plot Confusion Matrix
 sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=['Negative', 'Positive'],
             yticklabels=['Negative', 'Positive'])
@@ -94,22 +112,31 @@ plt.title('Confusion Matrix')
 plt.show()
 
 # Plot Precision-Recall curve
-precision, recall, _ = precision_recall_curve(y_test, y_scores[:, 1])
-plt.figure(figsize=(8, 6))
-plt.plot(recall, precision, label=f'Precision-Recall Curve (AUC-PR = {auc(recall, precision):.4f})', color='b')
+precision = dict()
+recall = dict()
+threshold = dict()
+for i in range(2):
+    precision[i] ,recall[i], threshold[i] = precision_recall_curve(y_test == i, y_scores[:, i])
+    plt.plot(recall[i], precision[i], lw=2, label=f"class {i}")
 plt.xlabel('Recall')
 plt.ylabel('Precision')
 plt.title('Precision-Recall Curve')
-plt.legend()
+plt.legend(loc="best")
 plt.show()
 
-# Plot ROC curve
-plt.figure(figsize=(8, 6))
-plt.plot(fpr, tpr, label=f'ROC Curve (AUC = {roc_auc:.4f})', color='b')
-plt.plot([0, 1], [0, 1], linestyle='--', color='grey', label='Random')
+# Plot Precision-Recall curve
+fpr = dict()
+tpr = dict()
+roc_auc = dict()
+for i in range(2):
+    fpr[i], tpr[i], _ = roc_curve(y_test == i, y_scores[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
+    plt.plot(fpr[i], tpr[i], lw=2, label=f"class {i} (area = {roc_auc[i]:0.2f})")
+# # Calculate TPR and FPR for ROC curve
+plt.plot([0, 1], [0, 1], linestyle='--', color='grey', lw=2)
 plt.xlabel('False Positive Rate (FPR)')
 plt.ylabel('True Positive Rate (TPR)')
 plt.title('Receiver Operating Characteristic (ROC) Curve')
-plt.legend()
+plt.legend(loc="lower right")
 plt.show()
 
