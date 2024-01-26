@@ -2,13 +2,15 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier, plot_tree
-from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.decomposition import PCA
 from matplotlib.colors import ListedColormap
+import matplotlib
+matplotlib.use('TkAgg')
+
+# Decision Tree
 
 # Set random seed for reproducibility
 np.random.seed(42)
@@ -35,13 +37,13 @@ X_pca = pca.fit_transform(X_encoded)
 X_train, X_test, y_train, y_test = train_test_split(X_pca, y_encoded, test_size=0.2, random_state=42)
 
 # Define and train the Decision Tree model
-dt_params = {'max_depth': [None, 5, 10, 15, 20]}  # Example hyperparameters to tune
-dt = DecisionTreeClassifier(max_depth=5)
+dt_params = {'max_depth': [None, 5, 10, 15, 20, 25]}  # Example hyperparameters to tune
+dt = DecisionTreeClassifier()
 dt.fit(X_train, y_train)
-# grid_search_dt = GridSearchCV(dt, dt_params, cv=3)
-# grid_search_dt.fit(X_train, y_train)
-# best_dt = grid_search_dt.best_estimator_
-# print(grid_search_dt.best_params_)
+grid_search_dt = GridSearchCV(dt, dt_params, cv=3)
+grid_search_dt.fit(X_train, y_train)
+best_dt = grid_search_dt.best_estimator_
+print(grid_search_dt.best_params_)
 
 # Predict and evaluate for Decision Tree
 y_pred_dt = dt.predict(X_test)
@@ -58,26 +60,6 @@ print(f'F1-Score: {f1_dt}')
 print(f'Confusion Matrix:\n{conf_matrix_dt}\n')
 
 
-# Define and train the Random Forest model
-rf_params = {'n_estimators': [50, 100, 150, 200]}  # Example hyperparameters to tune
-rf = RandomForestClassifier()
-grid_search_rf = GridSearchCV(rf, rf_params, cv=3)
-grid_search_rf.fit(X_train, y_train)
-best_rf = grid_search_rf.best_estimator_
-
-# Predict and evaluate for Random Forest
-y_pred_rf = best_rf.predict(X_test)
-accuracy_rf = accuracy_score(y_test, y_pred_rf)
-precision_rf = precision_score(y_test, y_pred_rf, pos_label=1)
-recall_rf = recall_score(y_test, y_pred_rf, pos_label=1)
-f1_rf = f1_score(y_test, y_pred_rf)
-conf_matrix_rf = confusion_matrix(y_test, y_pred_rf)
-print(f'Random Forest Metrics:')
-print(f'Accuracy: {accuracy_rf}')
-print(f'Precision: {precision_rf}')
-print(f'Recall: {recall_rf}')
-print(f'F1-Score: {f1_rf}')
-print(f'Confusion Matrix:\n{conf_matrix_rf}\n')
 
 # Function to plot decision boundaries in 2D after PCA
 def plot_decision_boundaries_2d_pca(X_pca, y, model, title):
@@ -102,12 +84,8 @@ def plot_decision_boundaries_2d_pca(X_pca, y, model, title):
     plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap=cmap_bold, edgecolor='k', s=20)
     plt.xlim(xx.min(), xx.max())
     plt.ylim(yy.min(), yy.max())
-    plt.title(f'{title}\nConfusion Matrix:\n{conf_matrix_rf}')
 
 # Plot decision boundaries for Decision Tree in 2D after PCA
 plot_decision_boundaries_2d_pca(X_pca, y_encoded, dt, "Decision Boundaries for Decision Tree after PCA")
 plt.show()
 
-# Plot decision boundaries for Random Forest in 2D after PCA
-# plot_decision_boundaries_2d_pca(X_pca, y_encoded, best_rf, "Decision Boundaries for Random Forest after PCA")
-# plt.show()

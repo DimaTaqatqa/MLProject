@@ -6,6 +6,10 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, confu
 from sklearn.preprocessing import LabelEncoder
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
+
+#KNN
 
 # Set random seed for reproducibility
 np.random.seed(42)

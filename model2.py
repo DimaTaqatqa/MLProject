@@ -11,8 +11,11 @@ from sklearn.metrics import (
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.manifold import TSNE
 from sklearn.decomposition import PCA
+import matplotlib
+matplotlib.use('TkAgg')
+
+#SVM
 
 # Load your dataset (replace 'your_dataset.csv' with the actual file path and column names)
 df = pd.read_csv('tic-tac-toe.data', header=None)
@@ -53,8 +56,8 @@ print("Best Hyperparameters:", grid_search.best_params_)
 # Get the best model
 best_svm_model = grid_search.best_estimator_
 
-# best_svm_model = SVC(kernel='poly', C=10, probability=True)
-# best_svm_model.fit(X_train, y_train)
+#best_svm_model = SVC(kernel='rbf', C=100, probability=True)
+#best_svm_model.fit(X_train, y_train)
 
 # Apply PCA for dimensionality reduction
 pca = PCA(n_components=2)
